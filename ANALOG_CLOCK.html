@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .clock {
+            border: 1.5px solid #93ff00;
+            border-radius: 50%;
+            height: 300px;
+            width: 300px;
+            margin: 172px 350px 179px 610px;
+
+        }
+
+        .lineM {
+
+            position: relative;
+            background: wheat;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            background: #80ff00;
+            /* box-shadow: -23px -23px 47px #6dd900,
+                23px 23px 47px #93ff00; */
+                box-shadow: 0px -7px 51px #6dd900, 7px 6px 12px #93ff00;
+        }
+
+        .lineM::after {
+            transform: rotate(90deg);
+        }
+
+        .lineM::after,
+        .lineM::before,
+        .lineM .marking {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 100%;
+            background: #023b07;
+            z-index: 0;
+            left: 49%;
+
+        }
+
+        .lineM .marking {
+            background: #4b4ba5;
+            width: 3px;
+        }
+
+        .lineM .marking.one {
+            transform: rotate(30deg);
+        }
+
+        .lineM .marking.two {
+            transform: rotate(60deg);
+        }
+
+        .lineM .marking.three {
+            transform: rotate(-30deg);
+        }
+
+        .lineM .marking.four {
+            transform: rotate(-60deg);
+        }
+
+        .inner-circ {
+            position: absolute;
+            top: 10%;
+            left: 10.25%;
+            width: 80%;
+            height: 80%;
+            background: hsl(0, 87%, 40%);
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            z-index: 1;
+        }
+
+        .inner-circ::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 18px;
+            margin-left: -9px;
+            margin-top: -6px;
+            background: #1a154d;
+            z-index: 11;
+        }
+
+        .hand {
+            width: 50%;
+            right: 50%;
+            height: 6px;
+            background: #03274b;
+            position: absolute;
+            top: 50%;
+            border-radius: 47%;
+            transform-origin: 100%;
+            transform: rotate(90deg);
+             /* transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);  */
+        }
+
+        .hand.hour-hand {
+            width: 30%;
+            z-index: 3;
+        }
+
+        .hand.min-hand {
+            height: 3px;
+            z-index: 10;
+            width: 40%;
+        }
+
+        .hand.second-hand {
+            background: #532601;
+            width: 45%;
+            height: 2px;
+            z-index: 16;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+        <div class="lineM one">
+            <!-- <div class="lineM two"></div> -->
+            <div class="marking one"></div>
+            <div class="marking two"></div>
+            <div class="marking three"></div>
+            <div class="marking four"></div>
+            <div class="inner-circ"></div>
+            <div class="hand hour-hand"></div>
+            <div class="hand min-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>
+        <!-- <div class="inner-circ"></div> -->
+    </div>
+    <script>
+        let hr = document.querySelector(".hour-hand");
+        let sec = document.querySelector(".second-hand");
+        let min = document.querySelector(".min-hand");
+
+        function getTime() {
+            let time = new Date();
+
+            let seconds = time.getSeconds();
+            let secondsDegrees = ((seconds / 60) * 360) + 90; //convert secs to degree
+            sec.style.transform = `rotate(${secondsDegrees}deg)`;
+
+            const mins = time.getMinutes();
+            const minsDegrees = ((mins / 60) * 360) + ((seconds / 60) * 6) + 90;
+            min.style.transform = `rotate(${minsDegrees}deg)`;
+
+            const hour = time.getHours();
+            const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90;
+            hr.style.transform = `rotate(${hourDegrees}deg)`;
+        }
+
+        setInterval(getTime, 1000);
+
+        getTime();
+    </script>
+</body>
+
+</html>
